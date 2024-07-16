@@ -8,7 +8,8 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User
+from models import db, User, Gender
+
 #from models import Person
 
 app = Flask(__name__)
@@ -36,14 +37,45 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
-@app.route('/user', methods=['GET'])
-def handle_hello():
 
-    response_body = {
-        "msg": "Hello, this is your GET /user response "
-    }
+#CRUD
 
-    return jsonify(response_body), 200
+@app.route('/users', methods=['GET'])
+def get_all_users():
+
+    users = User.query.all()
+    serialized_users = [user.serialize() for user in users]
+    return jsonify({"users":serialized_users})
+
+
+@app.route('/user', methods=['POST'])
+def create_user():
+    body = request.json
+
+    name = body.get("name", None)
+    last_name = body.get("last_name", None)
+    gender = body.get("gender", None)
+    email = body.get("email", None)
+    suscription_date = body.get("suscription_date", None)
+
+    required_fields = ["name", "last_name", "gender", "email", "suscription_date"]
+
+    for field in required_fields:
+        if field not in body:
+            return jsonify({"error": f"Missing field '{field}'"}),400
+
+    user = User(name=name, last_name=last_name, gender=Gender(gender), email=email, suscription_date=suscription_date)
+
+    try:
+        db.session.add(user)
+        db.session.commit()
+        db.session.refresh(user)
+
+        return jsonify({"message": f"User {user.name} created successfully!"}),201
+    
+    except Exception as error:
+        return jsonify({"error": f"{error}"}), 500
+
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':

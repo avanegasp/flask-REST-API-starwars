@@ -16,8 +16,7 @@ class User(db.Model):
     last_name = db.Column(db.String(50), nullable=False)
     gender = db.Column(db.Enum(Gender), nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
-    suscription_date = db.Column(db.Date, nullable=False)
+    suscription_date = db.Column(db.DateTime, nullable=False)
 
     signIns = db.relationship("SignIn", backref="user")
     planetsFavorites = db.relationship("PlanetFavorite", backref="user")

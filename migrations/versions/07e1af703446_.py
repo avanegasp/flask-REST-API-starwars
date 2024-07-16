@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 18e46763c718
+Revision ID: 07e1af703446
 Revises: 
-Create Date: 2024-07-16 14:18:11.123852
+Create Date: 2024-07-16 17:32:44.838104
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '18e46763c718'
+revision = '07e1af703446'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -48,14 +48,12 @@ def upgrade():
     sa.Column('last_name', sa.String(length=50), nullable=False),
     sa.Column('gender', sa.Enum('FEMALE', 'MALE', 'OTRO', name='gender'), nullable=False),
     sa.Column('email', sa.String(length=50), nullable=False),
-    sa.Column('password', sa.String(length=100), nullable=False),
-    sa.Column('suscription_date', sa.Date(), nullable=False),
+    sa.Column('suscription_date', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )
     op.create_table('character_favorite',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('favorite', sa.Boolean(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('character_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['character_id'], ['character.id'], ),
@@ -64,7 +62,6 @@ def upgrade():
     )
     op.create_table('planet_favorite',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('favorite', sa.Boolean(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('planet_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['planet_id'], ['planet.id'], ),
@@ -74,14 +71,12 @@ def upgrade():
     op.create_table('sign_in',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('timestamp', sa.Date(), nullable=False),
-    sa.Column('success', sa.Boolean(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('starship_favorite',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('favorite', sa.Boolean(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('starship_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['starship_id'], ['starship.id'], ),
