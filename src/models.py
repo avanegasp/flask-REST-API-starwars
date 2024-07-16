@@ -4,22 +4,6 @@ from enum import Enum as SQLEnum
 
 db = SQLAlchemy()
 
-# class User(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     email = db.Column(db.String(120), unique=True, nullable=False)
-#     password = db.Column(db.String(80), unique=False, nullable=False)
-#     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-
-#     def __repr__(self):
-#         return '<User %r>' % self.id
-
-#     def serialize(self):
-#         return {
-#             "id": self.id,
-#             "email": self.email,
-#             # do not serialize the password, its a security breach
-#         }
-
 class Gender(SQLEnum):
     FEMALE = "Female"
     MALE = "Male"
@@ -40,13 +24,34 @@ class User(db.Model):
     charactersFavorites = db.relationship("CharacterFavorite", backref="user")
     starshipsFavorite = db.relationship("StarshipFavorite", backref="user")
 
+    def __repr__(self):
+        return "<User %r>" % self.id
+    
+    def serialize(self):
+        return{
+            "id":self.id,
+            "name":self.name,
+            "last_name":self.last_name,
+            "gender":self.gender.value,
+            "email":self.email,
+            "suscription_date":self.suscription_date
+        }
+
 class SignIn(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
-    timestamp = db.Column(db.Date, nullable=False)
-    success = db.Column(db.Boolean, nullable=False)    
+    timestamp = db.Column(db.Date, nullable=False) 
 
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+
+    def __repr__(self):
+        return "<SignIn %r>" % self.id
+    
+    def serialize(self):
+        return{
+            "id": self.id,
+            "timestamp": self.timestamp
+        }
 
 class Character(db.Model):   
 
@@ -55,6 +60,18 @@ class Character(db.Model):
     character_gender = db.Column(db.String(50), nullable=False)
     hair_color = db.Column(db.String(50), nullable=False)
     eyes_color = db.Column(db.String(50), nullable=False)
+
+    def __repr__(self):
+        return "<Character %r>" % self.id
+    
+    def serialize(self):
+        return{
+            "id": self.id,
+            "character_name": self.character_name,
+            "character_gender": self.character_gender,
+            "hair_color": self.hair_color,
+            "eyes_color": self.eyes_color
+        }
 
 class Planet(db.Model):
 
@@ -65,12 +82,35 @@ class Planet(db.Model):
     surface_water = db.Column(db.String(100), nullable=False)
     gravity = db.Column(db.String(100), nullable=False)
 
+    def __repr__(self):
+        return "<Planet %r>" % self.id
+    
+    def serialize(self):
+        return{
+            "id": self.id,
+            "planet_name": self.planet_name,
+            "population": self.population,
+            "terrain": self.terrain,
+            "surface_water": self.surface_water,
+            "gravity": self.gravity
+        }
 class Starship(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     starship_name = db.Column(db.String, nullable="False")
     model = db.Column(db.String, nullable="False")
     manufacturer = db.Column(db.String, nullable="False")
+
+    def __repr__(self):
+        return "<Starship %r>" % self.id
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "starship_name": self.starship_name,
+            "model": self.model,
+            "manufacturer": self.manufacturer
+        }
 
 class CharacterFavorite(db.Model):
 
@@ -79,12 +119,32 @@ class CharacterFavorite(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     character_id = db.Column(db.Integer, db.ForeignKey("character.id"))
 
+    def __repr__(self):
+        return "<CharacterFavorite %r>" % self.id
+    
+    def serialize(self):
+        return{
+            "id": self.id,
+            "user_id": self.user_id,
+            "character_id": self.character_id
+        }
+
 class PlanetFavorite(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     planet_id = db.Column(db.Integer, db.ForeignKey("planet.id"))
+
+    def __repr__(self):
+        return "<PlanetFavorite %r>" % self.id
+    
+    def serialize(self):
+        return{
+            "id": self.id,
+            "user_id": self.id,
+            "planet_id": self.id
+        }
 
 class StarshipFavorite(db.Model):
 
@@ -93,5 +153,13 @@ class StarshipFavorite(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))   
     starship_id = db.Column(db.Integer, db.ForeignKey("starship.id"))
     
-
+    def __repr__(self):
+        return "<StarshipFavorite %r>" % self.id
+    
+    def serialize(self):
+        return{
+            "id": self.id,
+            "user_id": self.user_id,
+            "starship_id": self.starship_id
+        }
 
