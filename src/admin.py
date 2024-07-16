@@ -11,13 +11,13 @@ def setup_admin(app):
     
     # Add your models here, for example this is how we add a the User model to the admin
     admin.add_view(ModelView(User, db.session))
-    admin.add.view(ModelView(PlanetFavorite, db.session))
-    admin.add.view(ModelView(CharacterFavorite, db.session))
-    admin.add.view(ModelView(StarshipFavorite, db.session))
-    admin.add.view(ModelView(SignIn, db.session))
-    admin.add.view(ModelView(Character, db.session))
-    admin.add.view(ModelView(Planet, db.session))
-    admin.add.view(ModelView(Starship, db.session))    
+    admin.add_view(ModelView(PlanetFavorite, db.session))
+    admin.add_view(ModelView(CharacterFavorite, db.session))
+    admin.add_view(ModelView(StarshipFavorite, db.session))
+    admin.add_view(ModelView(SignIn, db.session))
+    admin.add_view(ModelView(Character, db.session))
+    admin.add_view(ModelView(Planet, db.session))
+    admin.add_view(ModelView(Starship, db.session))    
     
 
 

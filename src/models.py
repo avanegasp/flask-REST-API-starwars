@@ -11,7 +11,7 @@ db = SQLAlchemy()
 #     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
 
 #     def __repr__(self):
-#         return '<User %r>' % self.username
+#         return '<User %r>' % self.id
 
 #     def serialize(self):
 #         return {
@@ -40,37 +40,13 @@ class User(db.Model):
     charactersFavorites = db.relationship("CharacterFavorite", backref="user")
     starshipsFavorite = db.relationship("StarshipFavorite", backref="user")
 
-class PlanetFavorite(db.Model):
-
-    id = db.Column(db.Integer, primary_key=True)
-    favorite = db.Column(db.Boolean, default=False)
-
-    user_id = db.Column(db.Integer, db.ForeignKey("User.id"))
-    planet_id = db.Column(db.Integer, db.ForeignKey("Planet.id"))
-
-class CharacterFavorite(db.Model):
-
-    id = db.Column(db.Integer, primary_key=True)
-    favorite = db.Column(db.Boolean, default=False)
-
-    user_id = db.Column(db.Integer, db.ForeignKey("User.id"))
-    character_id = db.Column(db.Integer, db.ForeignKey("Character.id"))
-
-class StarshipFavorite(db.Model):
-
-    id = db.Column(db.Integer, primary_key=True)
-    favorite = db.Column(db.Boolean, default=False) 
-
-    user_id = db.Column(db.Integer, db.ForeignKey("User.id"))   
-    starship_id = db.Column(db.Integer, db.ForeignKey("Starship.id"))
-    
 class SignIn(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.Date, nullable=False)
     success = db.Column(db.Boolean, nullable=False)    
 
-    user_id = db.Column(db.Integer, db.ForeignKey("User.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
 class Character(db.Model):   
 
@@ -95,3 +71,27 @@ class Starship(db.Model):
     starship_name = db.Column(db.String, nullable="False")
     model = db.Column(db.String, nullable="False")
     manufacturer = db.Column(db.String, nullable="False")
+
+class CharacterFavorite(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+  
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    character_id = db.Column(db.Integer, db.ForeignKey("character.id"))
+
+class PlanetFavorite(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    planet_id = db.Column(db.Integer, db.ForeignKey("planet.id"))
+
+class StarshipFavorite(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))   
+    starship_id = db.Column(db.Integer, db.ForeignKey("starship.id"))
+    
+
+
