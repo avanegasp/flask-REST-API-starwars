@@ -18,7 +18,6 @@ class User(db.Model):
     email = db.Column(db.String(50), unique=True, nullable=False)
     suscription_date = db.Column(db.DateTime, nullable=False)
 
-    signIns = db.relationship("SignIn", backref="user")
     planetsFavorites = db.relationship("PlanetFavorite", backref="user")
     charactersFavorites = db.relationship("CharacterFavorite", backref="user")
     starshipsFavorite = db.relationship("StarshipFavorite", backref="user")
@@ -34,22 +33,6 @@ class User(db.Model):
             "gender":self.gender.value,
             "email":self.email,
             "suscription_date":self.suscription_date
-        }
-
-class SignIn(db.Model):
-
-    id = db.Column(db.Integer, primary_key=True)
-    timestamp = db.Column(db.Date, nullable=False) 
-
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-
-    def __repr__(self):
-        return "<SignIn %r>" % self.id
-    
-    def serialize(self):
-        return{
-            "id": self.id,
-            "timestamp": self.timestamp
         }
 
 class Character(db.Model):   

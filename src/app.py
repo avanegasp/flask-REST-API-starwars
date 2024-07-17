@@ -38,7 +38,7 @@ def sitemap():
     return generate_sitemap(app)
 
 
-#CRUD
+#CRUD users
 
 @app.route('/users', methods=['GET'])
 def get_all_users():
@@ -75,6 +75,16 @@ def create_user():
     
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
+
+
+
+#CRUD characters
+
+
+
+
+
+
 
 
 # this only runs if `$ python src/app.py` is executed
