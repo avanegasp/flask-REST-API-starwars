@@ -5,7 +5,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, Gender
+from models import db, User, Gender, PlanetFavorite, Planet
 
 user_bp = Blueprint('user_routes', __name__)
 
@@ -49,5 +49,29 @@ def create_user():
     
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
+    
 
-@user
+@user_bp.route('/user/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    try:
+        user = User.query.get(user_id)
+        if user is None:
+            return jsonify({"error": "user not found!"}), 404
+        return jsonify({"user": user.serialize()}), 200
+    except Exception as error:
+        return jsonify({"error", f"Missing field {error}"})
+
+
+@user_bp.route('/users/<int:user_id>/favorites', methods=['GET'])
+def get_all_user_favorites(user_id):
+    try:
+        planets_favorites_user = PlanetFavorite.query.filter_by(user_id=user_id).all()
+        planets_details = [Planet.query.get(fav.planet_id).serialize() for fav in planets_favorites_user]
+
+        response = {
+            "planets_favorites":planets_details
+        }
+        return jsonify(response), 200
+    
+    except Exception as error:
+        return jsonify({"error", f"{error}" }), 500

@@ -12,6 +12,7 @@ from models import db
 from user_routes import user_bp
 from character_routes import character_bp
 from planet_routes import planet_bp
+from planet_favorite_routes import planet_fav_bp
 
 #from models import Person
 
@@ -20,6 +21,7 @@ app = Flask(__name__)
 app.register_blueprint(user_bp, url_prefix='/api')
 app.register_blueprint(character_bp, url_prefix='/api')
 app.register_blueprint(planet_bp, url_prefix='/api')
+app.register_blueprint(planet_fav_bp, url_prefix='/api')
 
 app.url_map.strict_slashes = False
 
