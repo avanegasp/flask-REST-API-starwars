@@ -49,3 +49,5 @@ def create_user():
     
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500
+
+@user
