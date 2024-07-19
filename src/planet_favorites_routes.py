@@ -48,4 +48,17 @@ def create_favorite_planet_to_user(user_id, planet_id):
     except Exception as error:
         return jsonify({"error": f"{error}"}),500
 
+@planet_fav_bp.route("/planetfavorite/<int:planet_id>", methods=["DELETE"])
+def planet_fav_deleted(planet_id):
+    try:
+        planet_favorites = PlanetFavorite.query.get(planet_id)
+        if planet_favorites is None:
+            return jsonify({"error": "planet_fav not found"}), 404
+        db.session.delete(planet_favorites)
+        db.session.commit()
 
+        return jsonify({"message":f"planet_fav con id {planet_id} deleted"}),200
+        
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"error": f"{error}"}),500
