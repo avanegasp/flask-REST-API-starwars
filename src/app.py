@@ -14,6 +14,7 @@ from character_routes import character_bp
 from planet_routes import planet_bp
 from planet_favorites_routes import planet_fav_bp
 from user_favorites_routes import user_fav_bp
+from character_favorites_routes import character_fav_bp
 
 #from models import Person
 
@@ -24,6 +25,7 @@ app.register_blueprint(user_fav_bp, url_prefix='/api')
 app.register_blueprint(character_bp, url_prefix='/api')
 app.register_blueprint(planet_bp, url_prefix='/api')
 app.register_blueprint(planet_fav_bp, url_prefix='/api')
+app.register_blueprint(character_fav_bp, url_prefix='/api')
 
 app.url_map.strict_slashes = False
 

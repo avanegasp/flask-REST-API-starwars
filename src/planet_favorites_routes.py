@@ -7,7 +7,7 @@ from utils import APIException, generate_sitemap
 from admin import setup_admin
 from models import db, PlanetFavorite
 
-planet_fav_bp = Blueprint('planet_favorites_route', __name__)
+planet_fav_bp = Blueprint('planet_favorites_routes', __name__)
 
 #CRUD PLANET_FAVORITE
 
@@ -35,7 +35,7 @@ def create_favorite_planet_to_user(user_id, planet_id):
     
     planet_favorite_user_exist = PlanetFavorite.query.filter_by(user_id=user_id, planet_id=planet_id).first()
     if planet_favorite_user_exist is not None:
-        return jsonify({"error": f"planet {planet_id} and user {user_id} already exists"}),400
+        return jsonify({"error": f"planet {planet_id} and user {user_id} already exist"}),400
 
     planet_favorites = PlanetFavorite(user_id=user_id, planet_id=planet_id)
 
