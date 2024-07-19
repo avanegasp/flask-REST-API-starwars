@@ -7,7 +7,7 @@ from utils import APIException, generate_sitemap
 from admin import setup_admin
 from models import db, PlanetFavorite
 
-planet_fav_bp = Blueprint('planet_favorite_route', __name__)
+planet_fav_bp = Blueprint('planet_favorites_route', __name__)
 
 #CRUD PLANET_FAVORITE
 
@@ -23,7 +23,7 @@ def get_all_planet_favorites():
         return jsonify({"error", str(error)}),400
     
 @planet_fav_bp.route('/planetfavorite/<int:user_id>/<int:planet_id>', methods=['POST'])
-def get_favorite_planet(user_id, planet_id):
+def create_favorite_planet_to_user(user_id, planet_id):
 
     body = request.json
 
@@ -47,3 +47,5 @@ def get_favorite_planet(user_id, planet_id):
         return jsonify({"message": f"planet_favorite {planet_id} with user {user_id} created successfully!"}), 201
     except Exception as error:
         return jsonify({"error": f"{error}"}),500
+
+
