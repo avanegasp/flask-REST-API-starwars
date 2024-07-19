@@ -46,3 +46,18 @@ def create_character_favorite_to_user(user_id,character_id):
 
     except Exception as error:
         return jsonify({"error": f"{error}"}),500
+
+@character_fav_bp.route('/characterfavorite/<character_id>', methods=['DELETE'])
+def character_fav_deleted(character_id):
+    try:
+        character_favorite = CharacterFavorite.query.get(character_id)
+        if character_favorite is None:
+            return jsonify({"error":"character_fav not found"}),404
+        db.session.delete(character_favorite)
+        db.session.commit()
+
+        return jsonify({"message": f"character_fav with id {character_id} is deleted"}),200
+
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"error": f"{error}"}),500

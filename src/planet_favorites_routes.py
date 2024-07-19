@@ -37,12 +37,12 @@ def create_favorite_planet_to_user(user_id, planet_id):
     if planet_favorite_user_exist is not None:
         return jsonify({"error": f"planet {planet_id} and user {user_id} already exist"}),400
 
-    planet_favorites = PlanetFavorite(user_id=user_id, planet_id=planet_id)
+    planet_favorite = PlanetFavorite(user_id=user_id, planet_id=planet_id)
 
     try:
-        db.session.add(planet_favorites)
+        db.session.add(planet_favorite)
         db.session.commit()
-        db.session.refresh(planet_favorites)
+        db.session.refresh(planet_favorite)
 
         return jsonify({"message": f"planet_favorite {planet_id} with user {user_id} created successfully!"}), 201
     except Exception as error:
@@ -51,13 +51,13 @@ def create_favorite_planet_to_user(user_id, planet_id):
 @planet_fav_bp.route("/planetfavorite/<int:planet_id>", methods=["DELETE"])
 def planet_fav_deleted(planet_id):
     try:
-        planet_favorites = PlanetFavorite.query.get(planet_id)
-        if planet_favorites is None:
+        planet_favorite = PlanetFavorite.query.get(planet_id)
+        if planet_favorite is None:
             return jsonify({"error": "planet_fav not found"}), 404
-        db.session.delete(planet_favorites)
+        db.session.delete(planet_favorite)
         db.session.commit()
 
-        return jsonify({"message":f"planet_fav con id {planet_id} deleted"}),200
+        return jsonify({"message":f"planet_fav with id {planet_id} deleted"}),200
         
     except Exception as error:
         db.session.rollback()
