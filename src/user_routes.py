@@ -62,16 +62,3 @@ def get_user(user_id):
         return jsonify({"error", f"Missing field {error}"})
 
 
-# @user_bp.route('/users/<int:user_id>/favorites', methods=['GET'])
-# def get_all_user_favorites(user_id):
-#     try:
-#         planets_favorites_user = PlanetFavorite.query.filter_by(user_id=user_id).all()
-#         planets_details = [Planet.query.get(fav.planet_id).serialize() for fav in planets_favorites_user]
-
-#         response = {
-#             "planets_favorites":planets_details
-#         }
-#         return jsonify(response), 200
-    
-#     except Exception as error:
-#         return jsonify({"error", f"{error}" }), 500

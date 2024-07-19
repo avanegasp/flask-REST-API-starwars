@@ -28,26 +28,26 @@ def create_planet():
 
     body = request.json
 
-    planet_name = body.get("planet_name", None)
+    name = body.get("name", None)
     population = body.get("population", None)
     terrain = body.get("terrain", None)
     surface_water = body.get("surface_water", None)
     gravity = body.get("gravity", None)
 
-    required_fields = ["planet_name", "population", "terrain", "surface_water", "gravity"]
+    required_fields = ["name", "population", "terrain", "surface_water", "gravity"]
 
     for field in required_fields:
         if field not in body:
             return jsonify({"error": f"Missiong field {field}"}),400
         
-    planet = Planet(planet_name=planet_name, population=population, terrain=terrain, surface_water=surface_water, gravity=gravity)
+    planet = Planet(name=name, population=population, terrain=terrain, surface_water=surface_water, gravity=gravity)
 
     try:
         db.session.add(planet)
         db.session.commit()
         db.session.refresh(planet)
 
-        return jsonify({"message": f"Planet {planet.planet_name} created successfully"})
+        return jsonify({"message": f"Planet {planet.name} created successfully"})
 
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500

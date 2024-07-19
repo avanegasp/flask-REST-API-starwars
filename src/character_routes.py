@@ -24,28 +24,28 @@ def get_all_characters():
 
 
 @character_bp.route('/character', methods=['POST'])
-def character_create():
+def create_character():
     body = request.json
 
-    character_name = body.get("character_name", None)
-    character_gender = body.get("character_gender", None)
+    name = body.get("name", None)
+    gender = body.get("gender", None)
     hair_color = body.get("hair_color", None)
     eyes_color = body.get("eyes_color", None)
 
-    required_fields = ["character_name", "character_gender", "hair_color", "eyes_color"]
+    required_fields = ["name", "gender", "hair_color", "eyes_color"]
 
     for field in required_fields:
         if field not in body:
             return jsonify({"error": f"Missing field '{field}'"}),400
 
-    character = Character(character_name=character_name, character_gender=character_gender, hair_color=hair_color, eyes_color=eyes_color)
+    character = Character(name=name, gender=gender, hair_color=hair_color, eyes_color=eyes_color)
 
     try:
         db.session.add(character)
         db.session.commit()
         db.session.refresh(character)
 
-        return jsonify({"message": f"Character {character.character_name} created successfully"}), 201
+        return jsonify({"message": f"Character {character.name} created successfully"}), 201
 
     except Exception as error:
         return jsonify({"error": f"{error}"}), 500

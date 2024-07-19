@@ -38,8 +38,8 @@ class User(db.Model):
 class Character(db.Model):   
 
     id = db.Column(db.Integer, primary_key=True)
-    character_name = db.Column(db.String(100), nullable=False)
-    character_gender = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    gender = db.Column(db.String(50), nullable=False)
     hair_color = db.Column(db.String(50), nullable=False)
     eyes_color = db.Column(db.String(50), nullable=False)
 
@@ -49,8 +49,8 @@ class Character(db.Model):
     def serialize(self):
         return{
             "id": self.id,
-            "character_name": self.character_name,
-            "character_gender": self.character_gender,
+            "name": self.name,
+            "gender": self.gender,
             "hair_color": self.hair_color,
             "eyes_color": self.eyes_color
         }
@@ -58,7 +58,7 @@ class Character(db.Model):
 class Planet(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
-    planet_name = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
     population = db.Column(db.String(100), nullable=False)
     terrain = db.Column(db.String(100), nullable=False)
     surface_water = db.Column(db.String(100), nullable=False)
@@ -70,7 +70,7 @@ class Planet(db.Model):
     def serialize(self):
         return{
             "id": self.id,
-            "planet_name": self.planet_name,
+            "name": self.name,
             "population": self.population,
             "terrain": self.terrain,
             "surface_water": self.surface_water,
@@ -79,7 +79,7 @@ class Planet(db.Model):
 class Starship(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
-    starship_name = db.Column(db.String, nullable="False")
+    name = db.Column(db.String, nullable="False")
     model = db.Column(db.String, nullable="False")
     manufacturer = db.Column(db.String, nullable="False")
 
@@ -89,7 +89,7 @@ class Starship(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "starship_name": self.starship_name,
+            "name": self.name,
             "model": self.model,
             "manufacturer": self.manufacturer
         }

@@ -11,7 +11,7 @@ planet_fav_bp = Blueprint('planet_favorites_routes', __name__)
 
 #CRUD PLANET_FAVORITE
 
-@planet_fav_bp.route('/planetfavorites', methods=['GET'])
+@planet_fav_bp.route('/planet_favorites', methods=['GET'])
 def get_all_planet_favorites():
     try:
         planet_favorites = PlanetFavorite.query.all()
@@ -22,7 +22,7 @@ def get_all_planet_favorites():
     except Exception as error:
         return jsonify({"error", str(error)}),400
     
-@planet_fav_bp.route('/planetfavorite/<int:user_id>/<int:planet_id>', methods=['POST'])
+@planet_fav_bp.route('/planet_favorite/<int:user_id>/<int:planet_id>', methods=['POST'])
 def create_favorite_planet_to_user(user_id, planet_id):
 
     body = request.json
@@ -48,7 +48,7 @@ def create_favorite_planet_to_user(user_id, planet_id):
     except Exception as error:
         return jsonify({"error": f"{error}"}),500
 
-@planet_fav_bp.route("/planetfavorite/<int:planet_id>", methods=["DELETE"])
+@planet_fav_bp.route("/planet_favorite/<int:planet_id>", methods=["DELETE"])
 def planet_fav_deleted(planet_id):
     try:
         planet_favorite = PlanetFavorite.query.get(planet_id)
