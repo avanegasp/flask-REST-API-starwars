@@ -50,10 +50,12 @@ def create_character_favorite_to_user(user_id,character_id):
 @character_fav_bp.route('/character_favorite/<character_id>', methods=['DELETE'])
 def character_fav_deleted(character_id):
     try:
-        character_favorite = CharacterFavorite.query.filter_by(character_id=character_id).first()
-        if character_favorite is None:
+        character_favorites = CharacterFavorite.query.filter_by(character_id=character_id).all()
+        if character_favorites is None:
             return jsonify({"error":"character_fav not found"}),404
-        db.session.delete(character_favorite)
+        
+        for fav in character_favorites:
+            db.session.delete(fav)
         db.session.commit()
 
         return jsonify({"message": f"character_fav with id {character_id} is deleted"}),200

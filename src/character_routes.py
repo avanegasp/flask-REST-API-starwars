@@ -61,3 +61,18 @@ def get_character(character_id):
     return jsonify({
         "message": f"Character: {character} founded successfully"
     })
+
+@character_bp.route('/character/<int:id>', methods=['DELETE'])
+def deleted_character(id):
+    try:
+        character = Character.query.get(id)
+        if character is None:
+            return jsonify({"error":"character not found"}),404
+        db.session.delete(character)
+        db.session.commit()
+
+        return jsonify({"message":f"character with id {id} deleted"}),200    
+
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"error": f"{error}"}),500

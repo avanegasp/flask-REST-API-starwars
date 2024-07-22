@@ -72,3 +72,18 @@ def get_planet(planet_id):
     return jsonify({
         "message": f"Planet:{planet} founded successfully"
     })
+
+@planet_bp.route('/planet/<int:id>', methods=['DELETE'])
+def deleted_planet(id):
+    try:
+        planet = Planet.query.get(id)
+        if planet is None:
+            return jsonify({"error":"planet not found"}),404
+        db.session.delete(planet)
+        db.session.commit()
+
+        return jsonify({"message":f"planet with id {id} deleted"}),200
+
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"error": f"{error}"}),500
