@@ -51,7 +51,7 @@ def create_favorite_planet_to_user(user_id, planet_id):
 @planet_fav_bp.route("/planet_favorite/<int:planet_id>", methods=["DELETE"])
 def planet_fav_deleted(planet_id):
     try:
-        planet_favorite = PlanetFavorite.query.get(planet_id)
+        planet_favorite = PlanetFavorite.query.filter_by(planet_id=planet_id).first()
         if planet_favorite is None:
             return jsonify({"error": "planet_fav not found"}), 404
         db.session.delete(planet_favorite)

@@ -10,7 +10,7 @@ from models import db, PlanetFavorite, Planet, Character, CharacterFavorite
 user_fav_bp = Blueprint('favorite_user_routes', __name__)
 
 @user_fav_bp.route('/users/<int:user_id>/favorites', methods=['GET'])
-def get_all_user_favorites(user_id):
+def get_user_favorites(user_id):
     try:
         planet_favorites_user = PlanetFavorite.query.filter_by(user_id=user_id).all()
         planet_details = [Planet.query.get(fav.planet_id).serialize() for fav in planet_favorites_user]
