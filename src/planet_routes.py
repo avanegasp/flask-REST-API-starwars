@@ -62,10 +62,10 @@ def get_user(planet_id):
     except Exception as error:
         return jsonify({"error", f"Missing field {error}"})
 
-@planet_bp.route('/planet/<int:planet_id>', methods=['GET'])
-def get_planet(planet_id):
+@planet_bp.route('/planet/<int:id>', methods=['GET'])
+def get_planet(id):
     
-    planet = Planet.query.get(planet_id)
+    planet = Planet.query.get(id)
     if planet is None:
         return jsonify({"error":"Planet not found"}), 404
     

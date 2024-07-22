@@ -51,16 +51,50 @@ def create_character():
         return jsonify({"error": f"{error}"}), 500
     
     
-@character_bp.route('/character/<int:character_id>', methods=['GET'])
-def get_character(character_id):
+@character_bp.route('/character/<int:id>', methods=['GET'])
+def get_character(id):
 
-    character = Character.query.get(character_id)
+    character = Character.query.get(id)
     if character is None:
         return jsonify({"error": "Character not found"}), 404
     
     return jsonify({
         "message": f"Character: {character} founded successfully"
     })
+
+@character_bp.route('/character/<int:id>', methods=['PUT'])
+def update_character(id):
+    body = request.json
+
+    character = Character.query.get(id)
+    if character is None:
+        return jsonify({"error": "Character not found"}),404
+    
+    required_fields = ["name", "gender", "hair_color", "eyes_color"]
+
+    missing_fields = [field for field in required_fields if field not in body]
+    if missing_fields:
+        return jsonify({"error":f"Missing fields:{', '.join(missing_fields)}"}),400
+    
+    name = body.get("name",None)
+    gender = body.get("gender",None)
+    hair_color = body.get("hair_color",None)
+    eyes_color = body.get("eyes_color",None)
+
+    character.name = name
+    character.gender = gender
+    character.hair_color = hair_color
+    character.eyes_color = eyes_color
+
+    try:
+        db.session.commit()
+        return jsonify({"character":character.serialize()})
+    
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"error": str(error)}),500
+
+
 
 @character_bp.route('/character/<int:id>', methods=['DELETE'])
 def deleted_character(id):
