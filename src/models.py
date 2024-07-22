@@ -99,7 +99,7 @@ class CharacterFavorite(db.Model):
     id = db.Column(db.Integer, primary_key=True)
   
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    character_id = db.Column(db.Integer, db.ForeignKey("character.id"))
+    character_id = db.Column(db.Integer, db.ForeignKey("character.id", ondelete="CASCADE"))
 
     def __repr__(self):
         return "<CharacterFavorite %r>" % self.id
@@ -116,7 +116,7 @@ class PlanetFavorite(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    planet_id = db.Column(db.Integer, db.ForeignKey("planet.id"))
+    planet_id = db.Column(db.Integer, db.ForeignKey("planet.id", ondelete="CASCADE"))
 
     def __repr__(self):
         return "<PlanetFavorite %r>" % self.id
