@@ -5,7 +5,6 @@ Este proyecto consiste en desarrollar una API REST que administra un blog de Sta
 - **Backend:** Python (Flask)
 - **ORM:** SQLAlchemy para la interacción con la base de datos
 - **Base de Datos:** PostgreSQL
-- **Herramientas de Desarrollo:** Gitpod o Codespaces para un entorno de desarrollo instantáneo
 - **Pruebas de API:** Postman
 
 ## Características del Proyecto
