@@ -2,4 +2,5 @@ Flask
 Flask-RESTful
 gunicorn
 Flask-Migrate
-
+Flask_swagger
+Flask_cors
